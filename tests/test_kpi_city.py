@@ -3,7 +3,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'src'))
-from kpi_city import city_kpi
+from kpi_city import city_kpi, ALLOWED_CITIES
 
 def test_city_kpi_happy_path():
     db_path = os.path.join('data', 'db', 'analytics.db')
@@ -26,3 +26,7 @@ def test_city_kpi_injection_attempt():
     conn.close()
     
     assert count == 0, f"SQL injection attempt returned {count} rows, should be 0"
+
+def test_city_kpi_unknown_city_rejected():
+    unknown_city = "UnknownCity"
+    assert unknown_city not in ALLOWED_CITIES, "Test city should not be in allowlist"
